@@ -1,0 +1,3 @@
+#random:
+#    path: /random
+#    controller: App\Controller\UploadController::random
