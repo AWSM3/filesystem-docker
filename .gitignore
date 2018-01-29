@@ -10,6 +10,8 @@ docker-compose.yml
 data/database/*
 data/storage/*
 application/public/files/
+etc/ssl/
+
 
 # Logs
 logs/nginx/
