@@ -49,9 +49,15 @@ class UploadController extends Controller
      */
     public function upload(Request $request): JsonResponse
     {
-        $file = $this->fileManager->uploadFile($request);
-        $responseModel = $this->arrayModel->setData($file);
+        $responseModel = $this->arrayModel;
+        try {
+            $file = $this->fileManager->uploadFile($request);
+            $responseModel->setData($file);
+            $status = true;
+        } catch (\Exception $e) {
+            $status = false;
+        }
 
-        return new JsonResponse($responseModel());
+        return new JsonResponse($responseModel($status));
     }
 }
