@@ -49,13 +49,14 @@ class DeleteController extends Controller
      */
     public function delete(Request $request): JsonResponse
     {
+        $responseModel = $this->statusArrayModel;
         try {
             $this->fileManager->deleteFile($request->get('id'));
             $status = true;
         } catch (\Exception $e) {
+            $responseModel->setMessages([$e->getMessage()]);
             $status = false;
         }
-        $responseModel = $this->statusArrayModel;
 
         return new JsonResponse($responseModel($status));
     }

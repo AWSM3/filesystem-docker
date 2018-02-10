@@ -62,6 +62,7 @@ class GetController extends Controller
             $responseModel = $responseModel->setData($file);
             $status = true;
         } catch (\Exception $e) {
+            $responseModel->setMessages([$e->getMessage()]);
             $status = false;
         }
 
