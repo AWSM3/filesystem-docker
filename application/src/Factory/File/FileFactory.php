@@ -11,6 +11,7 @@ namespace App\Factory\File;
 /** @uses */
 use App\Entity\EntityInterface;
 use App\Entity\File\File;
+use App\Factory\File\Exception\FileInvalidException;
 use App\Form\UploadFileType;
 use App\Utils\Hash\File as FileHash;
 use App\Utils\Storage\File as FileStorage;
@@ -60,6 +61,7 @@ class FileFactory implements FileFactoryInterface
      * @param Request $request
      *
      * @return EntityInterface|File
+     * @throws FileInvalidException
      */
     public function create(Request $request): EntityInterface
     {
@@ -79,8 +81,10 @@ class FileFactory implements FileFactoryInterface
             $fileObject->setUpdatedAt(new \DateTime());
 
             $this->entityManager->persist($fileObject);
+
+            return $fileObject;
         }
 
-        return $fileObject;
+        throw new FileInvalidException('Файл невалиден', $form->getErrors());
     }
 }
