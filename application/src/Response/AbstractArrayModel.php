@@ -63,6 +63,18 @@ abstract class AbstractArrayModel
     }
 
     /**
+     * @param array $messages
+     * @return AbstractArrayModel
+     */
+    public function setMessages(array $messages): self
+    {
+        $currentMessages = $this->responseArray[self::MESSAGES_KEY];
+        $this->responseArray[self::MESSAGES_KEY] = array_merge($currentMessages, $messages);
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     abstract protected function toArray(): array;
