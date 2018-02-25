@@ -132,6 +132,7 @@ class Manager implements ManagerInterface
      */
     private function checkFileExists(FileInterface $fileObject)
     {
+        /** @var FileInterface $entity */
         $entity = $this->fileRepository->findOneBy([FileInterface::COLUMN_HASH => $fileObject->getHash()]);
 
         if ($entity) {
