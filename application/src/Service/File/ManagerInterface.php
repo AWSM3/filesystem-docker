@@ -39,6 +39,15 @@ interface ManagerInterface
     public function getFile(string $id): FileInterface;
 
     /**
+     * Get files entities
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function getFiles(Request $request): array;
+
+    /**
      * @param string $id
      *
      * @return void

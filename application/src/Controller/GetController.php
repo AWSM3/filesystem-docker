@@ -12,7 +12,7 @@ namespace App\Controller;
 use App\Response\File\ArrayModel;
 use App\Service\File\ManagerInterface;
 use Symfony\Component\{
-    HttpFoundation\JsonResponse, Routing\Annotation\Route
+    HttpFoundation\JsonResponse, HttpFoundation\Request, Routing\Annotation\Route
 };
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -60,6 +60,32 @@ class GetController extends Controller
         try {
             $file = $this->fileManager->getFile($id);
             $responseModel = $responseModel->setData($file);
+            $status = true;
+        } catch (\Exception $e) {
+            $responseModel->setMessages([$e->getMessage()]);
+            $status = false;
+        }
+
+        return new JsonResponse($responseModel($status));
+    }
+
+    /**
+     * @Route(
+     *     "/files",
+     *     methods={"POST"},
+     *     name="get_files"
+     * )
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function getFiles(Request $request): JsonResponse
+    {
+        $responseModel = $this->arrayModel;
+        try {
+            $files = $this->fileManager->getFiles($request);
+            $responseModel->setData($files);
             $status = true;
         } catch (\Exception $e) {
             $responseModel->setMessages([$e->getMessage()]);

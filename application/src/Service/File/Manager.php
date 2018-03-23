@@ -113,6 +113,21 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Get files entities
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function getFiles(Request $request): array
+    {
+        /** @var File[]|array $files */
+        $files = $this->fileRepository->findBy(['id' => $request->request->get('files')]);
+
+        return $files;
+    }
+
+    /**
      * @param string $id
      *
      * @return void
