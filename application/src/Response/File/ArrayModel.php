@@ -44,14 +44,30 @@ class ArrayModel extends AbstractArrayModel
             return [];
         }
 
-        $data = [
-            'url'       => $this->requestUtil->makeAbsolutePublicPath($this->data->getPublicPath()),
-            'title'     => $this->data->getTitle(),
-            'id'        => $this->data->getId(),
-            'extension' => $this->data->getExtension(),
-            'filename'  => $this->data->getFilenameWithExtension(),
-        ];
+        if (is_array($this->data)) {
+            foreach ($this->data as $file) {
+                /** @var File $file */
+                $data[$file->getId()] = $this->objectToArray($file);
+            }
+        } elseif ($this->data instanceof File) {
+            $data = $this->objectToArray($this->data);
+        }
 
         return [static::DATA_KEY => $data];
+    }
+
+    /**
+     * @param File $file
+     *
+     * @return array
+     */
+    private function objectToArray(File $file): array {
+        return [
+            'url'       => $this->requestUtil->makeAbsolutePublicPath($file->getPublicPath()),
+            'title'     => $file->getTitle(),
+            'id'        => $file->getId(),
+            'extension' => $file->getExtension(),
+            'filename'  => $file->getFilenameWithExtension(),
+        ];
     }
 }
