@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 interface ManagerInterface
 {
     /**
-     * Upload file to system
+     * Загрузить файл в хранилище
      *
      * @param Request $request
      *
@@ -30,7 +30,7 @@ interface ManagerInterface
     public function uploadFile(Request $request): FileInterface;
 
     /**
-     * Get file entity
+     * Получить конкретный файл по ID
      *
      * @param string $id
      *
@@ -39,7 +39,7 @@ interface ManagerInterface
     public function getFile(string $id): FileInterface;
 
     /**
-     * Get files entities
+     * Получить множество файлов на основе данных реквеста
      *
      * @param Request $request
      *
@@ -53,4 +53,13 @@ interface ManagerInterface
      * @return void
      */
     public function deleteFile(string $id): void;
+
+    /**
+     * Получить файл по определеённому параметру из реквеста
+     *
+     * @param Request $request
+     *
+     * @return FileInterface
+     */
+    public function getFileByParam(Request $request): FileInterface;
 }

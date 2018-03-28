@@ -62,7 +62,7 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * Upload file to system
+     * Загрузить файл в хранилище
      *
      * @param Request $request
      *
@@ -94,7 +94,7 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * Get file entity
+     * Получить конкретный файл по ID
      *
      * @param string $id
      *
@@ -113,7 +113,7 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * Get files entities
+     * Получить множество файлов на основе данных реквеста
      *
      * @param Request $request
      *
@@ -138,6 +138,26 @@ class Manager implements ManagerInterface
         $fileObject = $this->getFile($id);
         $this->entityManager->remove($fileObject);
         $this->entityManager->flush();
+    }
+
+    /**
+     * Получить файл по определеённому параметру из реквеста
+     *
+     * @param Request $request
+     *
+     * @throws FileNotFound
+     * @return FileInterface
+     */
+    public function getFileByParam(Request $request): FileInterface {
+        $param = (string)$request->request->get('param');
+        $value = (string)$request->request->get('value');
+        /** @var File $fileObject */
+        $fileObject = $this->fileRepository->findBy([$param => $value]);
+        if (!$fileObject) {
+            throw new FileNotFound('Требуемый файл не найден в базе данных.');
+        }
+
+        return $fileObject;
     }
 
     /**

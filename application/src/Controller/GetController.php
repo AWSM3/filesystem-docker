@@ -94,4 +94,30 @@ class GetController extends Controller
 
         return new JsonResponse($responseModel($status));
     }
+
+    /**
+     * @Route(
+     *     "/file/by-param",
+     *     methods={"POST"},
+     *     name="get_file_by_param"
+     * )
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function getFileByParam(Request $request): JsonResponse
+    {
+        $responseModel = $this->arrayModel;
+        try {
+            $file = $this->fileManager->getFileByParam($request);
+            $responseModel->setData($file);
+            $status = true;
+        } catch (\Exception $e) {
+            $responseModel->setMessages([$e->getMessage()]);
+            $status = false;
+        }
+
+        return new JsonResponse($responseModel($status));
+    }
 }
