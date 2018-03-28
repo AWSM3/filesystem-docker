@@ -152,7 +152,7 @@ class Manager implements ManagerInterface
         $param = (string)$request->request->get('param');
         $value = (string)$request->request->get('value');
         /** @var File $fileObject */
-        $fileObject = $this->fileRepository->findBy([$param => $value]);
+        $fileObject = $this->fileRepository->findOneBy([$param => $value]);
         if (!$fileObject) {
             throw new FileNotFound('Требуемый файл не найден в базе данных.');
         }
